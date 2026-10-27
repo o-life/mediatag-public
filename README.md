@@ -1,16 +1,12 @@
 # Media_Tag
 
-Local-first AI media tagging for macOS — bundled vision model, face clustering, five quality gates, NFO/XMP export and project delivery workflows. Fully on-device, no cloud. Source-available.
+English | [简体中文](README.zh-CN.md)
 
----
+Local-first AI media tagging for macOS — bundled vision model, face clustering, five quality gates, NFO/XMP export and project delivery workflows. Fully on-device, no cloud. Source-available.
 
 **Local-first AI media tagging for macOS.** Analyze video and photo libraries
 entirely on your own machine — no cloud, no upload — and turn them into
 searchable, export-ready metadata.
-
-简体中文说明见下方 / 中文说明见下。
-
----
 
 ## What it does
 
@@ -65,36 +61,4 @@ src/ui/         PySide6 desktop app
 src/db/         raw SQLite (no ORM on the hot path)
 scripts/        build / packaging / dev-run scripts
 tests/          pytest suite
-```
-
----
-
-# MediaTag(中文)
-
-**本地优先的 macOS AI 素材标签系统。** 在你自己的电脑上完成视频/照片库的
-AI 分析——全程不联网上传,产出可检索、可交付的元数据。
-
-- **逐帧 AI 打标**:内置本地视觉语言模型(Qwen3-VL-8B + llama.cpp,无需安装
-  任何外部运行时),按闭式词表给每个场景打标,**每个标签都保留证据帧**;
-- **人脸管线**:检测→向量→聚类,内置商业授权模型(AuraFace,Apache-2.0);
-- **五道质量闸**:闭式词表、词典别名、垃圾帧过滤、频率门槛、互斥规则;
-- **交付**:NFO sidecar(兼容 Jellyfin/Infuse/Kodi)+ 按项目批量导出
-  (XMP 可被 Lightroom Classic / Capture One 直读);
-- **项目与交付**:项目/清单(内容哈希锚)/自动归集/交付打包;
-- **性能档位**:按机器自动选择并发/上下文/抽帧密度(16GB Apple Silicon 起步,
-  16GB 档 30 分钟视频全流程实测 4.7 分钟)。
-
-全部计算在本机完成,素材不出门。
-
-## 许可
-
-[Fair Source License v1.1](LICENSE):源码公开可读、可自用;**商业使用需
-商业授权**——购买官方安装包+激活码即是最便捷的授权方式;每版发布满两年
-自动转 MIT。
-
-## 构建
-
-```bash
-./scripts/install_dependencies.sh
-bash scripts/build.sh
 ```
