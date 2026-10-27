@@ -31,6 +31,11 @@ AI 分析——全程不联网上传,产出可检索、可交付的元数据。
 
 ```bash
 ./scripts/install_dependencies.sh
+mkdir -p models/qwen3-vl
+# 先下载模型权重(不入库),例:
+#   https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF
+huggingface-cli download unsloth/Qwen3-VL-8B-Instruct-GGUF \
+  Qwen3-VL-8B-Instruct-Q4_K_M.gguf --local-dir models/qwen3-vl
 bash scripts/build.sh
 ```
 

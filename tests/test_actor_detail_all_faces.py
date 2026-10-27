@@ -17,6 +17,11 @@ from pathlib import Path
 
 import pytest
 
+pytestmark = pytest.mark.skipif(
+    not os.path.exists("models/auraface/scrfd_10g_bnkps.onnx"),
+    reason="需要 AuraFace 人脸模型(应用内「设置 → 环境初始化」下载)")
+
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 DB = os.path.expanduser("~/Library/Application Support/MediaTag/db/audit_cache.db")

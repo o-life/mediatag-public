@@ -36,6 +36,22 @@ PROBE_TIMEOUT = 5.0
 _LOCAL_TYPES = ("folder", "mlx")
 
 
+def _embedded_enabled() -> Tuple[bool, dict]:
+    """内嵌推理是否生效（与 vlm.create_vlm_client 的选择条件严格一致）。
+
+    独立成函数便于单测 monkeypatch（URL 探针用例需关闭内嵌分支隔离环境）。
+    """
+    try:
+        from src.core.config import get_config_manager as _get_cm
+
+        emb_cfg = _get_cm().get("embedded_inference") or {}
+    except Exception:
+        emb_cfg = {}
+    frozen = getattr(sys, "frozen", False)
+    dev_override = bool(os.environ.get("MEDIA_DEV_ENDPOINTS"))
+    return (emb_cfg.get("enabled") or frozen) and not (frozen and dev_override), emb_cfg
+
+
 def is_vlm_ready(get_config: Optional[Callable[[], dict]] = None) -> Tuple[bool, str]:
     """判定 VLM 是否就绪。返回 ``(是否就绪, 原因)``。
 
@@ -46,18 +62,10 @@ def is_vlm_ready(get_config: Optional[Callable[[], dict]] = None) -> Tuple[bool,
     任何异常都视为**未就绪**（宁可暂停，也不要放行一批注定失败的任务）。
     """
     # ── 内嵌推理优先（与 vlm.create_vlm_client 的选择条件严格一致）──
-    # frozen 恒内嵌；配置显式 enabled 亦内嵌；MEDIA_DEV_ENDPOINTS 开发态解绑。
     # 内嵌模式探测"资源可解析"而非进程存活——llama-server 由首次请求惰性拉起
     # （打包用户机没有 Ollama，此闸若按 URL 探测将永不开闸，任务永不派发）。
-    try:
-        from src.core.config import get_config_manager as _get_cm
-
-        emb_cfg = _get_cm().get("embedded_inference") or {}
-    except Exception:
-        emb_cfg = {}
-    frozen = getattr(sys, "frozen", False)
-    dev_override = bool(os.environ.get("MEDIA_DEV_ENDPOINTS"))
-    if (emb_cfg.get("enabled") or frozen) and not (frozen and dev_override):
+    use_embedded, emb_cfg = _embedded_enabled()
+    if use_embedded:
         try:
             from src.core.embedded_inference import resolve_runtime
 

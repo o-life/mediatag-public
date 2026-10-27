@@ -34,7 +34,7 @@ class TestTccProtectedPath:
         assert _is_tcc_protected_path(p) is True
 
     def test_normal_dirs_not_protected(self):
-        assert _is_tcc_protected_path("/Volumes/Media/unsorted") is False
+        assert _is_tcc_protected_path("/Volumes/Data/未分类") is False
         assert _is_tcc_protected_path(Path.home() / "Movies") is False
         assert _is_tcc_protected_path(Path.home() / "Library" / "Application Support") is False
 
@@ -67,7 +67,7 @@ class TestResolveCoverSkipsProtected:
             return real_exists(self)
 
         monkeypatch.setattr(Path, "exists", spy_exists)
-        out = _resolve_cover_path("/Users/demo/Desktop/recording.mov")
+        out = _resolve_cover_path("/Users/olive/Desktop/录屏2026-08-24.mov")
         assert touched == [], f"不应探测桌面路径, 实际访问: {touched}"
         assert out is None
 
@@ -90,7 +90,7 @@ class TestResolveCoverSkipsProtected:
         unit.mkdir(parents=True)
         f = unit / "frame_000.jpg"
         f.write_bytes(b"\xff\xd8\xff\xe0" + b"\x00" * 8)
-        out = _resolve_cover_path("/Users/demo/Desktop/whatever.mov", str(tmp_path))
+        out = _resolve_cover_path("/Users/olive/Desktop/whatever.mov", str(tmp_path))
         assert out == str(f), f"应使用 frames_path 取到封面, 实际 {out}"
 
     def test_normal_dir_still_falls_back(self, tmp_path):

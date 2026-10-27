@@ -52,6 +52,16 @@ The build bundles the Qwen3-VL GGUF weights and a self-contained
 `llama-server` runtime (`scripts/prepare_llama_bundle.sh` resolves the dylib
 closure automatically).
 
+Download the model weights first (not stored in this repository):
+
+```bash
+mkdir -p models/qwen3-vl
+# GGUF Q4_K_M + mmproj from the official quantizations, e.g.:
+#   https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF
+huggingface-cli download unsloth/Qwen3-VL-8B-Instruct-GGUF \
+  Qwen3-VL-8B-Instruct-Q4_K_M.gguf --local-dir models/qwen3-vl
+```
+
 ## Repository layout
 
 ```

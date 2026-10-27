@@ -28,7 +28,8 @@ def _make_scheduler(short_task_first: bool) -> TaskScheduler:
         max_sifting_concurrent=4,
         max_vlm_concurrent=3,
     )
-    sch.short_task_first = short_task_first
+    # 14 号方案:策略经 dispatch_strategy 生效(旧 short_task_first 仅作配置迁移)
+    sch.dispatch_strategy = "short_first" if short_task_first else "import_order"
     return sch
 
 
@@ -42,7 +43,7 @@ def _drain(sch: TaskScheduler):
 
 class TestSortKey:
     def test_disabled_returns_zero(self):
-        """关闭开关 → 中位排序键恒为 0(退化为 FIFO)。"""
+        """import_order 策略 → 排序键恒为 0(退化为 FIFO)。"""
         sch = _make_scheduler(False)
         assert sch._sort_key(1, 3600.0) == 0.0
 
@@ -54,12 +55,23 @@ class TestSortKey:
         """未知时长用 inf(排末位), 不用 0 —— 避免"未知"被误当最短。"""
         sch = _make_scheduler(True)
         monkeypatch.setattr(sch, "_lookup_duration", lambda task_id: None)
-        assert sch._sort_key(1) == float("inf")
+        assert sch._sort_key(1) == 1e9  # 未知时长哨兵值(14 号方案)
+
+    def test_long_first_negates_known_duration(self):
+        sch = _make_scheduler(True)
+        sch.dispatch_strategy = "long_first"
+        assert sch._sort_key(1, 600.0) == -600.0
+
+    def test_long_first_unknown_goes_last(self, monkeypatch):
+        sch = _make_scheduler(True)
+        sch.dispatch_strategy = "long_first"
+        monkeypatch.setattr(sch, "_lookup_duration", lambda task_id: None)
+        assert sch._sort_key(1) == -1e9  # long_first:未知排末位不抢
 
     def test_zero_duration_goes_last(self, monkeypatch):
         sch = _make_scheduler(True)
         monkeypatch.setattr(sch, "_lookup_duration", lambda task_id: None)
-        assert sch._sort_key(1, 0) == float("inf")
+        assert sch._sort_key(1, 0) == 1e9  # 0 视同未知
 
     def test_cache_is_used(self, monkeypatch):
         sch = _make_scheduler(True)

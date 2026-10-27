@@ -21,8 +21,17 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
+import pytest  # noqa: E402
+
 from src.core.scheduler import SchedulerStatus, TaskPriority, TaskScheduler  # noqa: E402
 from src.core.vlm_readiness import defer_task_for_vlm, is_vlm_ready  # noqa: E402
+
+
+@pytest.fixture(autouse=True)
+def _no_embedded(monkeypatch):
+    """URL 探针单测默认关闭内嵌分支(内嵌分支有专属用例,见文件末尾)。"""
+    monkeypatch.setattr("src.core.vlm_readiness._embedded_enabled",
+                        lambda: (False, {}))
 
 
 # ── is_vlm_ready ────────────────────────────────────────────────────
@@ -213,3 +222,26 @@ def test_no_gate_installed_keeps_old_behaviour():
         await sched.stop()
 
     asyncio.run(scenario())
+
+
+# ── 内嵌推理分支(2026-10-14 新增) ───────────────────────────────────
+def test_embedded_ready_when_assets_resolve(monkeypatch):
+    """内嵌模式:资源可解析即就绪(不探测 Ollama——打包机没有 Ollama)。"""
+    monkeypatch.setattr("src.core.vlm_readiness._embedded_enabled",
+                        lambda: (True, {"enabled": True}))
+    monkeypatch.setattr("src.core.embedded_inference.resolve_runtime",
+                        lambda cfg: {"binary": "/usr/bin/true", "model": "/usr/bin/true",
+                                     "mmproj": ""})
+    ok, reason = is_vlm_ready(lambda: _cfg())
+    assert ok and "内嵌推理资源就绪" in reason
+
+
+def test_embedded_not_ready_when_assets_missing(monkeypatch):
+    monkeypatch.setattr("src.core.vlm_readiness._embedded_enabled",
+                        lambda: (True, {"enabled": True}))
+    monkeypatch.setattr("src.core.embedded_inference.resolve_runtime",
+                        lambda cfg: {"binary": "/nonexistent/llama-server",
+                                     "model": "/nonexistent/model.gguf",
+                                     "mmproj": ""})
+    ok, reason = is_vlm_ready(lambda: _cfg())
+    assert not ok and "内嵌推理资源缺失" in reason

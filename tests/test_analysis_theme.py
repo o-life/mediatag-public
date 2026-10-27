@@ -149,11 +149,21 @@ class TestPresetSeeding:
         defaults = [r["name"] for r in registry.list_themes() if r.get("is_default")]
         assert defaults == ["用户自设默认"]
 
-    def test_prompt_text_is_loaded_from_file(self, registry):
-        seed_preset_themes(registry, themes_dir=presets_dir())
-        with_prompt = [r for r in registry.list_themes() if r.get("prompt")]
-        assert with_prompt, "至少有一个预置主题带专属提示词（男男）"
-        assert "任务" in with_prompt[0]["prompt"] or with_prompt[0]["prompt"].strip()
+    def test_prompt_text_is_loaded_from_file(self, registry, tmp_path, monkeypatch):
+        """机制测试:预置主题带 prompt 文件名时,播种从文件读入提示词内容。
+
+        公开版预置主题不含专属提示词文件(成人主题词典不入公开仓),
+        故以临时目录 + monkeypatch 的自定义预置条目验证加载机制。
+        """
+        (tmp_path / "自定义映射.md").write_text("# 标准标签库", encoding="utf-8")
+        (tmp_path / "自定义提示词.md").write_text("## 任务\n分析内容", encoding="utf-8")
+        monkeypatch.setattr("src.core.preset_themes.PRESET_THEMES",
+                            [{"name": "自定义", "mapping": "自定义映射.md",
+                              "prompt": "自定义提示词.md"}])
+        created = seed_preset_themes(registry, themes_dir=tmp_path)
+        assert created == 1
+        row = registry.get("自定义")
+        assert row["prompt"] == "## 任务\n分析内容"
 
 
 # ── 标签映射导入（仍在库内，按 theme_id 归属） ──────────────────────

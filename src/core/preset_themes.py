@@ -14,19 +14,13 @@ from typing import Dict, List, Optional
 logger = logging.getLogger(__name__)
 
 # 名称与现有库的既有主题对齐，避免播种后出现「日常」+「日常生活」这类重复概念
+# 公开版仅附带通用主题；成人内容/女女/男女/男男四主题的词典与提示词不入公开仓
+# （内部完整版 6 主题，官方安装包按内部版分发）。
 PRESET_THEMES: List[Dict] = [
     {"name": "日常", "description": "日常生活/通用内容",
      "mapping": "日常生活标签映射表.md", "default": True},
-    {"name": "成人内容", "description": "成人视频专用",
-     "mapping": "专业成人内容标签映射表.md"},
     {"name": "AI 视频", "description": "AI 生成/短剧内容质控",
      "mapping": "AI生成审计标签映射表.md"},
-    {"name": "女女", "description": "女女向内容",
-     "mapping": "女女标签库.md"},
-    {"name": "男女", "description": "男女向内容",
-     "mapping": "男女标签库.md"},
-    {"name": "男男", "description": "男男向内容",
-     "mapping": "男男标签库.md", "prompt": "男男分析提示词.md"},
 ]
 
 

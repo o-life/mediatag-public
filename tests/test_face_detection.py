@@ -9,6 +9,11 @@ import numpy as np
 import os
 import pytest
 
+pytestmark = pytest.mark.skipif(
+    not os.path.exists("models/auraface/scrfd_10g_bnkps.onnx"),
+    reason="需要 AuraFace 人脸模型(应用内「设置 → 环境初始化」下载)")
+
+
 from src.core.face_detector import (
     evaluate_clarity,
     evaluate_pose,
