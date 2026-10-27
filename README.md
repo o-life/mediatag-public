@@ -62,6 +62,11 @@ huggingface-cli download unsloth/Qwen3-VL-8B-Instruct-GGUF \
   Qwen3-VL-8B-Instruct-Q4_K_M.gguf --local-dir models/qwen3-vl
 ```
 
+Face models (AuraFace, ~350 MB) — download from the
+[Releases page](https://github.com/o-life/mediatag-public/releases) and unzip
+at the repository root (yields `models/auraface/`); the app can also fetch
+them in-app via **Settings → Environment Init**.
+
 ## Repository layout
 
 ```

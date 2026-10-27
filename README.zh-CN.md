@@ -36,6 +36,13 @@ mkdir -p models/qwen3-vl
 #   https://huggingface.co/unsloth/Qwen3-VL-8B-Instruct-GGUF
 huggingface-cli download unsloth/Qwen3-VL-8B-Instruct-GGUF \
   Qwen3-VL-8B-Instruct-Q4_K_M.gguf --local-dir models/qwen3-vl
+```
+
+人脸模型(AuraFace,约 350MB):从 [Releases 页面](https://github.com/o-life/mediatag-public/releases)
+下载并解压到仓库根目录(得到 `models/auraface/`);应用内也可通过
+「设置 → 环境初始化」获取。
+
+```bash
 bash scripts/build.sh
 ```
 
