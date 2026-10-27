@@ -1,0 +1,43 @@
+# MediaTag configuration example.
+# All keys are optional — the app ships with sane defaults (see
+# src/core/config.py DEFAULT_CONFIG). Copy to config.yaml only when
+# you need to override something.
+#
+# 完整键位与默认值见 src/core/config.py 的 DEFAULT_CONFIG。
+# 路径支持相对(相对工作区)与绝对;不配置则全部落在数据目录内。
+
+vlm:
+  provider: url
+  base_url: http://localhost:11434
+  model: minicpm-v4.5
+  timeout: 60
+video:
+  frame_count: 15
+  frame_format: jpg
+  output_dir: ./data/frames
+analysis:
+  merge_vlm_passes: true
+  mapping_nsfw_filter: null
+  mapping_frames_per_unit: null
+  mapping_nsfw_min_frames: 1
+  strict_vocabulary: true
+  frame_quality_filter: true
+  frame_quality_black_mean: 16
+  frame_quality_min_sharpness: 12
+  min_tag_scene_support: 2
+  tag_scene_support_ratio: 0.25
+  max_tags_per_file: 30
+nfo:
+  output_dir: ./output
+  format: xml
+
+# ── 可选段(默认不存在,按需添加)────────────────────────────
+# embedded_inference:            # 打包版默认启用内置推理;开发态显式开启用本段
+#   enabled: true
+# face_recognition:
+#   faces_dir: actor_faces       # 人脸库目录(相对工作区)
+# dictionary:
+#   mapping_md_path: ""           # 可选:标准标签别名映射 Markdown(Obsidian 维护);
+#                                # 缺省回退库内别名
+# database:
+#   path: db/audit_cache.db      # SQLite 路径(默认在工作区 db/ 下)

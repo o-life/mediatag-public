@@ -1,0 +1,6 @@
+llama.cpp / llama-server (brew distribution, version 0.5.0)
+Source: https://github.com/ggml-org/llama.cpp
+Copyright: (c) 2023-2026 The ggml authors
+License: MIT (see LICENSE in this directory)
+
+Bundled by MediaTag solely as the embedded inference runtime.

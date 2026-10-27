@@ -1,0 +1,60 @@
+[project]
+name = "ai-video-factory"
+version = "1.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.139.1",
+    "ollama>=0.6.2",
+    "pydantic>=2.13.4",
+    "sqlalchemy>=2.0.51",
+    "streamlit>=1.59.2",
+    "uvicorn>=0.51.0",
+    "insightface>=0.7.3",
+    "huggingface_hub>=0.20.0",
+    "onnxruntime>=1.16.0",
+    "opennsfw-onnx>=0.1.0",
+    "numpy>=2.0.0",
+    "opencv-python>=4.8.0",
+    "scikit-learn>=1.3.0",
+    "mediapipe<1.0.0",
+    "open-clip-torch>=3.3.0",
+    "pillow-heif>=0.17.0",
+    "pyobjc-framework-cocoa>=12.2.2",
+    "pyobjc-framework-Photos>=12.2.2; sys_platform == 'darwin'",
+    "pyobjc-framework-Vision>=12.2.2; sys_platform == 'darwin'",
+    # 运行时/GUI/打包（此前未声明，`uv sync` 会误删，故显式声明）
+    "psutil>=7.0.0",
+    "PySide6==6.11.2",
+    "pyinstaller==6.22.2",
+    "keyring>=25.7.0",
+    "cryptography>=50.0.1",
+    "httpx>=0.28.1",
+    "rawpy>=0.27.1",
+    "mlx-vlm",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.8",
+]
+
+[tool.pytest.ini_options]
+# 防同步盘副本污染：忽略 " xxx 2.py" 形态的 Finder 冲突副本（根治前保持免疫）
+addopts = "--ignore-glob='* 2.py'"
+markers = [
+    "smoke: 快速冒烟子集（纯逻辑、不依赖模型下载/重 IO）；scripts/gate.sh 使用，全集另跑",
+]
+
+[tool.ruff]
+target-version = "py311"
+# 同上：跳过同步盘冲突副本
+extend-exclude = ["* 2.py"]
+
+[tool.ruff.lint]
+# 最小规则集起步（F: 未定义名 F821、未用导入 F401、未用变量 F841 等）——
+# 历史 `fix(api): NameError` 类 bug 正是 F82x 能拦的。暂不启用 ruff format
+# （避免全库格式化雪崩）；日后引入须以一次独立的全量格式化提交进行。
+select = ["F"]

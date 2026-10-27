@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.venv/
+
+# Build artifacts
+build/
+dist/
+bundled_bin/
+*.dmg
+
+# Models & runtime data (never in git)
+models/
+data/
+*.db
+*.db-shm
+*.db-wal
+*.onnx
+*.gguf
+
+# Local config (real paths/credentials live here)
+config.yaml
+config.local.yaml
+*.local.yaml
+
+# OS
+.DS_Store

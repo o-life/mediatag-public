@@ -1,0 +1,8 @@
+Qwen3-VL-8B-Instruct GGUF (Q4_K_M) + mmproj (Q8_0)
+Source: https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct-GGUF
+Base model: https://huggingface.co/Qwen/Qwen3-VL-8B-Instruct
+Copyright: The Qwen Team (Alibaba Cloud)
+License: Apache License 2.0 (see LICENSE in this directory)
+
+Bundled by MediaTag solely as an offline inference model asset.
+No endorsement by Alibaba Cloud / Qwen team is implied.
