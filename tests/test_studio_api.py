@@ -1,4 +1,4 @@
-"""影楼基础包 S3.2 客单 API 测试：客户/类型词表/活动 CRUD 与筛选/素材挂接。
+"""项目与素材挂接 API 测试：项目/类型词表/分组 CRUD 与筛选/素材挂接。
 
 与 test_actor_split.py 同构：临时 SQLite + 打桩 get_db_engine/get_session，
 直接调用路由函数（绕过 HTTP 层；路由函数均为同步实现）。
@@ -68,19 +68,19 @@ def _mk_task(db, path, project_id=None, md5=None) -> int:
     return t.id
 
 
-# ── 客户 ─────────────────────────────────────────────────────────────
+# ── 分组 ─────────────────────────────────────────────────────────────
 
 
 def test_client_crud_roundtrip(db_env):
     cid = _mk_client(db_env, "张三&李四")
-    r = studio.create_client({"name": "王家", "contact": "13900"})
-    studio.update_client(cid, {"name": "张三王家"})
+    r = studio.create_client({"name": "workshop-a", "contact": "13900"})
+    studio.update_client(cid, {"name": "workshop-a-2"})
 
     lst = studio.list_clients(page=1, size=20)
     assert lst["total"] == 2
     by_name = {c["name"]: c for c in lst["clients"]}
-    assert by_name["张三王家"]["contact"] is None  # helper 未写联系方式
-    assert by_name["王家"]["contact"] == "13900"
+    assert by_name["workshop-a-2"]["contact"] is None  # helper 未写联系方式
+    assert by_name["workshop-a"]["contact"] == "13900"
 
     assert studio.delete_client(r["id"])["status"] == "success"
     assert studio.list_clients(page=1, size=20)["total"] == 1
@@ -135,7 +135,7 @@ def test_project_create_auto_name_and_get(db_env):
 
     r = studio.create_project({"client_id": cid, "event_type_id": etid, "event_date": "2026-10-01"})
     pid = r["id"]
-    # 自动命名：{客户名}·{类型} {MM-DD}
+    # 自动命名：{名称}·{类型} {MM-DD}
     assert r["name"] == "张三&李四·婚礼 10-01"
 
     detail = studio.get_project(pid)

@@ -1,6 +1,6 @@
 # Media_Tag
 
-Local-first AI media tagging for macOS — bundled vision model, face clustering, five quality gates, NFO/XMP export and studio delivery workflows. Fully on-device, no cloud. Source-available.
+Local-first AI media tagging for macOS — bundled vision model, face clustering, five quality gates, NFO/XMP export and project delivery workflows. Fully on-device, no cloud. Source-available.
 
 ---
 
@@ -24,8 +24,8 @@ searchable, export-ready metadata.
   gates between raw model output and your library.
 - **Export** — NFO sidecars (Jellyfin/Infuse/Kodi compatible) and per-project
   batch export with XMP sidecars readable by Lightroom Classic / Capture One.
-- **Studio workflows** — clients, projects, project rosters anchored by file
-  content hash, auto brand clustering, batch delivery packaging.
+- **Project & delivery** — projects, rosters anchored by file content
+  hash, automatic grouping, batch delivery packaging.
 - **Performance tiers** — auto-selects concurrency/context/frame-density for
   the machine it runs on (16 GB Apple Silicon minimum, verified 4.7 min for a
   30-min video on the 16 GB tier).
@@ -80,7 +80,7 @@ AI 分析——全程不联网上传,产出可检索、可交付的元数据。
 - **五道质量闸**:闭式词表、词典别名、垃圾帧过滤、频率门槛、互斥规则;
 - **交付**:NFO sidecar(兼容 Jellyfin/Infuse/Kodi)+ 按项目批量导出
   (XMP 可被 Lightroom Classic / Capture One 直读);
-- **影楼工作流**:客户/项目/自持清单(内容哈希锚)/按厂牌自动归集/交付打包;
+- **项目与交付**:项目/清单(内容哈希锚)/自动归集/交付打包;
 - **性能档位**:按机器自动选择并发/上下文/抽帧密度(16GB Apple Silicon 起步,
   16GB 档 30 分钟视频全流程实测 4.7 分钟)。
 
