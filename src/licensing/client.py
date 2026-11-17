@@ -27,7 +27,7 @@ except ImportError as _exc:  # fail-closed：无公钥则无法验签，拒绝�
         "<server/.ed25519-public-key.txt>"
     ) from _exc
 
-API_BASE = "https://license.cloudcraft.xin"
+API_BASE = "https://license.tickcat.cn"
 PRODUCT_ID = "media-tag"
 REQUEST_TIMEOUT = 10.0  # 秒
 NETWORK_RETRIES = 2  # 仅网络异常重试，最多 2 次

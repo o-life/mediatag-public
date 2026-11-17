@@ -1161,12 +1161,12 @@ class MainWindow(QMainWindow):
         m_help.addAction(act_notice)
         act_feedback = QAction("常见问题与反馈…", self)
         act_feedback.triggered.connect(
-            lambda: QDesktopServices.openUrl(QUrl("mailto:support@cloudcraft.xin"))
+            lambda: QDesktopServices.openUrl(QUrl("mailto:support@tickcat.cn"))
         )
         m_help.addAction(act_feedback)
         act_home = QAction("访问官网…", self)
         act_home.triggered.connect(
-            lambda: QDesktopServices.openUrl(QUrl("https://cloudcraft.xin"))
+            lambda: QDesktopServices.openUrl(QUrl("https://tickcat.cn"))
         )
         m_help.addAction(act_home)
 

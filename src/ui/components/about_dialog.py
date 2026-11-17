@@ -182,7 +182,7 @@ class AboutDialog(QDialog):
         
         # 邮箱联系
         email_label = QLabel()
-        email_label.setText('<a href="mailto:support@cloudcraft.xin" style="color: {accent}; text-decoration: none;">support@cloudcraft.xin</a>'.format(accent=t.get('accent')))
+        email_label.setText('<a href="mailto:support@tickcat.cn" style="color: {accent}; text-decoration: none;">support@tickcat.cn</a>'.format(accent=t.get('accent')))
         email_label.setFont(get_system_font(10))
         email_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
         email_label.setOpenExternalLinks(True)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """3.1 设备指纹绑定 生产端到端验证(add-public-sale-readiness)。
 
-用真实 MediaTag 授权客户端(含 Ed25519 响应验签)对生产 license.cloudcraft.xin 跑
+用真实 MediaTag 授权客户端(含 Ed25519 响应验签)对生产 license.tickcat.cn 跑
 双指纹矩阵:激活→本机 verify→拷机 verify(应 403 device_mismatch)→第二机激活
 (应 403 device_limit_reached 附设备列表)→旧机解绑→新机激活(自助换绑闭环)→吊销。
 

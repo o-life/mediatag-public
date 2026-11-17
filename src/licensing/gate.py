@@ -16,7 +16,7 @@ from . import client, fingerprint, quota, state, store
 
 _log = logging.getLogger("licensing.gate")
 
-SUPPORT_EMAIL = "support@cloudcraft.xin"
+SUPPORT_EMAIL = "support@tickcat.cn"
 
 MSG_REVOKED_NOTICE = (
     "授权已取消，MediaTag 已切换为免费版（累计可处理 100 个文件、1 个 vault）。\n"
